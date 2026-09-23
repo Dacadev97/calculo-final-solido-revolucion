@@ -1,0 +1,15 @@
+EVIDENCIAS — Momento 2 (Davidson Cadavid · IU Digital)
+
+1) Simulación 3D pública (abre sin iniciar sesión):
+https://dacadev97.github.io/calculo-final-solido-revolucion/
+
+2) Video screencast ~40 s (público, sin login):
+https://dacadev97.github.io/calculo-final-solido-revolucion/video.html
+MP4 directo: https://dacadev97.github.io/calculo-final-solido-revolucion/Cadavid_Davidson_F30_simulacion_screencast.mp4
+
+En el video se interactúa con la simulación (ángulo de rotación / capas) mostrando la región y el sólido. Radio de la capa: r(x)=x. Altura: h(x)=3x−x².
+
+3) Código HTML de la simulación (para el cuaderno, si se pide fuente aparte):
+https://github.com/Dacadev97/calculo-final-solido-revolucion/blob/main/index.html
+
+[Insertar también captura 02_solido_revolucion_3d.png como evidencia visual del sólido]

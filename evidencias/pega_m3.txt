@@ -1,0 +1,19 @@
+EVIDENCIAS — Momento 3 (Davidson Cadavid · IU Digital)
+
+1) Dibujo / visualización de la capa típica (radio, altura, espesor) con región e intersecciones:
+[Insertar imagen 03_capas_riemann_3d.png]
+Origen: captura 3D de capas tipo Riemann / cascarones (Python). Complementa la región 2D del Momento 1. NO es captura nativa de GeoGebra; cumple criterio de gráfica con capa típica visible.
+
+2) Planteamiento analítico (resumen; el desarrollo manuscrito a mano va en foto aparte):
+r(x)=x · h(x)=3x−x² · dV=2π x (3x−x²) dx
+V = 2π ∫_0^3 (3x² − x³) dx = 27π/2 ≈ 42.4115 u³
+
+3) Foto del desarrollo manual a mano (puño y letra):
+NEED_USER: falta fotografía manuscrita de ESTA integral (capas cilíndricas, f=−x²+4x, g=x, V=27π/2). Las fotos locales foto_integral_1/2 corresponden a otro ejercicio (área entre x+2 y x²) y NO se usan aquí para no falsear evidencia.
+
+4) Verificación con IA (cuaderno Gemini Notebook):
+https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f
+Fuente PDF de la actividad ya cargada en el cuaderno. Resultado de revisión: el planteamiento V=2π∫x[f−g]dx con límites [0,3] es coherente con el método de capas; el valor exacto 27π/2 coincide con la antiderivada F(x)=x³−x⁴/4 evaluada en 3.
+
+5) Pregunta de transferencia (eje x=−1 en lugar del eje y):
+Cambiaría el factor del radio: pasaría de r(x)=x a r(x)=x−(−1)=x+1, porque la distancia horizontal al eje de rotación aumenta en 1. La altura h(x)=f(x)−g(x) y los límites [0,3] se mantienen si la región es la misma.

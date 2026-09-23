@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Evidencias F30 · Sólido de revolución · Cadavid</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:860px;margin:24px auto;padding:0 16px;line-height:1.45;color:#0f172a;background:#f8fafc}
+h1{font-size:1.35rem} h2{font-size:1.1rem;margin-top:1.6rem;color:#1d4ed8}
+.box{background:#fff;border:1px solid #cbd5e1;border-radius:8px;padding:14px;margin:12px 0}
+.need{background:#fef3c7;border-color:#f59e0b}
+img{max-width:100%;height:auto;border:1px solid #e2e8f0;border-radius:6px;margin:8px 0}
+code,a{word-break:break-all} pre{white-space:pre-wrap;background:#f1f5f9;padding:10px;border-radius:6px;font-size:.9rem}
+</style>
+</head>
+<body>
+<h1>Evidencias F30 · Construye tu sólido de revolución</h1>
+<p><strong>Estudiante:</strong> Davidson Arley Cadavid Alvarez · <strong>Cuenta IU:</strong> davidson.cadavid@est.iudigital.edu.co</p>
+<p><strong>Funciones:</strong> f(x)=−x²+4x · g(x)=x · [0,3] · eje y · capas cilíndricas · V=27π/2</p>
+
+<div class="box">
+<h2>Cuaderno Gemini Notebook (Editor: sorayda.trejos@prof.iudigital.edu.co)</h2>
+<p><a href="https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f">https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f</a></p>
+</div>
+
+<div class="box">
+<h2>Momento 1 · Prompt + región</h2>
+<pre>Prompt: Actúa como un profesor de cálculo integral. Necesito plantear una región en el plano 2D delimitada por dos funciones continuas f(x) (curva superior no lineal) y g(x) (recta inferior) en el primer cuadrante (x ≥ 0), que se intersecten en dos puntos exactos x=a y x=b, para calcular el volumen del sólido de revolución generado al rotar dicha región alrededor del eje y (x = 0) mediante el método de capas cilíndricas con una sola integral. Proporciona las ecuaciones, los puntos de corte analíticos, la altura h(x)=f(x)-g(x) y el radio r(x) de cada capa cilíndrica.
+
+Funciones: f(x)=-x²+4x ; g(x)=x ; P1(0,0) P2(3,3) ; [0,3]</pre>
+<p><strong>Gráfica región/ecuaciones</strong> (origen: Matplotlib — no captura nativa GeoGebra):</p>
+<img src="01_region_2d_capas.png" alt="Región 2D y capas"/>
+<p class="need"><strong>NEED_USER:</strong> falta enlace público de la conversación Gemini (Compartir → público). No se inventó URL.</p>
+</div>
+
+<div class="box">
+<h2>Momento 2 · Simulación + video (~40 s)</h2>
+<ul>
+<li>Simulación: <a href="https://dacadev97.github.io/calculo-final-solido-revolucion/">https://dacadev97.github.io/calculo-final-solido-revolucion/</a></li>
+<li>Video HTML: <a href="https://dacadev97.github.io/calculo-final-solido-revolucion/video.html">video.html</a></li>
+<li>MP4: <a href="https://dacadev97.github.io/calculo-final-solido-revolucion/Cadavid_Davidson_F30_simulacion_screencast.mp4">Cadavid_Davidson_F30_simulacion_screencast.mp4</a></li>
+<li>Código: <a href="https://github.com/Dacadev97/calculo-final-solido-revolucion/blob/main/index.html">index.html en GitHub</a></li>
+</ul>
+<p>En el video: r(x)=x · h(x)=3x−x² · interacción con ángulo/capas.</p>
+<img src="02_solido_revolucion_3d.png" alt="Sólido 3D"/>
+</div>
+
+<div class="box">
+<h2>Momento 3 · Capa típica + verificación</h2>
+<p>Visualización capas (origen Matplotlib/3D — no GeoGebra nativo):</p>
+<img src="03_capas_riemann_3d.png" alt="Capas Riemann 3D"/>
+<pre>r(x)=x · h(x)=3x−x² · V=2π∫₀³(3x²−x³)dx = 27π/2 ≈ 42.4115 u³
+
+Transferencia (eje x=-1): cambia el radio a r(x)=x+1; altura y límites se mantienen.</pre>
+<p>Verificación IA (cuaderno): <a href="https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f">notebook</a> — planteamiento coherente con capas; valor 27π/2 coincide con F(x)=x³−x⁴/4 en [0,3].</p>
+<p class="need"><strong>NEED_USER:</strong> foto manuscrita de ESTA integral (no usar foto_integral_1/2: son de otro ejercicio de área).</p>
+</div>
+</body>
+</html>
