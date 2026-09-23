@@ -1,15 +1,15 @@
 EVIDENCIAS — Momento 3 (Davidson Cadavid · IU Digital)
 
 1) Dibujo / visualización de la capa típica (radio, altura, espesor) con región e intersecciones:
-[Insertar imagen 03_capas_riemann_3d.png]
+Gráfica capas típicas 3D (Matplotlib): https://dacadev97.github.io/calculo-final-solido-revolucion/evidencias/03_capas_riemann_3d.png
 Origen: captura 3D de capas tipo Riemann / cascarones (Python). Complementa la región 2D del Momento 1. NO es captura nativa de GeoGebra; cumple criterio de gráfica con capa típica visible.
 
 2) Planteamiento analítico (resumen; el desarrollo manuscrito a mano va en foto aparte):
 r(x)=x · h(x)=3x−x² · dV=2π x (3x−x²) dx
 V = 2π ∫_0^3 (3x² − x³) dx = 27π/2 ≈ 42.4115 u³
 
-3) Foto del desarrollo manual a mano (puño y letra):
-Manuscrito VIRTUAL listo (Davidson: sin foto de papel): capturas/04_manuscrito_virtual_capas.png (+ capturas/04_manuscrito_virtual.pdf). Desarrollo completo capas → V=27π/2. Embebido en réplica HTML/PDF. Pendiente insertar la PNG en el Google Doc IU si el picker lo permite.
+3) Desarrollo manuscrito (virtual · estilo cuaderno, sin foto de papel):
+Manuscrito virtual (desarrollo capas, V=27π/2): https://dacadev97.github.io/calculo-final-solido-revolucion/evidencias/04_manuscrito_virtual_capas.png (+ PDF local capturas/04_manuscrito_virtual.pdf).
 
 4) Verificación con IA (cuaderno Gemini Notebook):
 https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f

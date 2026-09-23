@@ -1,6 +1,6 @@
 EVIDENCIAS — Momento 1 (Davidson Cadavid · IU Digital)
 
-1) Prompt usado con Gemini (registro textual; enlace público de la conversación pendiente de compartir):
+1) Prompt usado con Gemini (registro textual; enlace público de la conversación abajo):
 «Actúa como un profesor de cálculo integral. Necesito plantear una región en el plano 2D delimitada por dos funciones continuas f(x) (curva superior no lineal) y g(x) (recta inferior) en el primer cuadrante (x ≥ 0), que se intersecten en dos puntos exactos x=a y x=b, para calcular el volumen del sólido de revolución generado al rotar dicha región alrededor del eje y (x = 0) mediante el método de capas cilíndricas con una sola integral. Proporciona las ecuaciones, los puntos de corte analíticos, la altura h(x) = f(x) - g(x) y el radio r(x) de cada capa cilíndrica.»
 
 2) Funciones generadas / seleccionadas:
@@ -13,7 +13,8 @@ Intersecciones: P1(0,0) y P2(3,3) → intervalo [0, 3]
 https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f
 
 4) Gráfica de la región con ecuaciones visibles:
-[Insertar imagen 01_region_2d_capas.png debajo de este párrafo]
+Gráfica región 2D (Matplotlib): https://dacadev97.github.io/calculo-final-solido-revolucion/evidencias/01_region_2d_capas.png
 Origen de la gráfica: captura generada con Python/Matplotlib (región 2D, capas y ecuaciones f y g visibles). NO es captura nativa de GeoGebra.
 
-NEED_USER: compartir públicamente la conversación de Gemini (botón Compartir → enlace público) y pegar esa URL aquí. No se inventó ningún enlace falso.
+Enlace público conversación Gemini:
+https://share.gemini.google/WPM4OuwKXNdE

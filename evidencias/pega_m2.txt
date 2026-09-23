@@ -12,4 +12,4 @@ En el video se interactúa con la simulación (ángulo de rotación / capas) mos
 3) Código HTML de la simulación (para el cuaderno, si se pide fuente aparte):
 https://github.com/Dacadev97/calculo-final-solido-revolucion/blob/main/index.html
 
-[Insertar también captura 02_solido_revolucion_3d.png como evidencia visual del sólido]
+Captura sólido: https://dacadev97.github.io/calculo-final-solido-revolucion/evidencias/02_solido_revolucion_3d.png
