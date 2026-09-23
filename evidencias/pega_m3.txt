@@ -9,7 +9,7 @@ r(x)=x · h(x)=3x−x² · dV=2π x (3x−x²) dx
 V = 2π ∫_0^3 (3x² − x³) dx = 27π/2 ≈ 42.4115 u³
 
 3) Foto del desarrollo manual a mano (puño y letra):
-NEED_USER: falta fotografía manuscrita de ESTA integral (capas cilíndricas, f=−x²+4x, g=x, V=27π/2). Las fotos locales foto_integral_1/2 corresponden a otro ejercicio (área entre x+2 y x²) y NO se usan aquí para no falsear evidencia.
+Manuscrito VIRTUAL listo (Davidson: sin foto de papel): capturas/04_manuscrito_virtual_capas.png (+ capturas/04_manuscrito_virtual.pdf). Desarrollo completo capas → V=27π/2. Embebido en réplica HTML/PDF. Pendiente insertar la PNG en el Google Doc IU si el picker lo permite.
 
 4) Verificación con IA (cuaderno Gemini Notebook):
 https://notebook.google.com/notebook/957bafb9-a437-4590-b53c-57b48a893c9f
