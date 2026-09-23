@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulación 3D — Sólido de Revolución por Capas Cilíndricas</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-light: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --success: #10b981;
+      --gold: #f59e0b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-light);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    header .subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .badge {
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    main {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 65px);
+    }
+    #viewport {
+      flex: 1;
+      position: relative;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+    }
+    #sidebar {
+      width: 380px;
+      background: var(--surface);
+      border-left: 1px solid var(--surface-light);
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--surface-light);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .card h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .formula {
+      font-family: 'Courier New', monospace;
+      background: #090d16;
+      border: 1px solid #334155;
+      padding: 8px 10px;
+      border-radius: 6px;
+      color: #38bdf8;
+      font-size: 0.85rem;
+      margin: 4px 0 8px 0;
+      line-height: 1.4;
+    }
+    .control-group {
+      margin-bottom: 12px;
+    }
+    .control-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .control-group label span.val {
+      color: var(--text);
+      font-weight: 600;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      flex: 1;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover { background: var(--primary-dark); }
+    button.secondary {
+      background: var(--surface-light);
+      color: var(--text);
+    }
+    button.secondary:hover { background: #475569; }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .stat-row:last-child { border: none; }
+    .stat-row .stat-label { color: var(--text-muted); }
+    .stat-row .stat-val { font-weight: 600; color: var(--gold); }
+    #overlay-info {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--text);
+      pointer-events: none;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Sólido de Revolución — Método de Capas Cilíndricas</h1>
+      <div class="subtitle">IU Digital de Antioquia · Cálculo Integral · Actividad Final F30% · Davidson Cadavid</div>
+    </div>
+    <div class="badge">Eje de Giro: x = 0 (Eje Y)</div>
+  </header>
+
+  <main>
+    <div id="viewport">
+      <div id="overlay-info">
+        <div><strong>Rotación 3D:</strong> Arrastra con clic izquierdo</div>
+        <div><strong>Zoom:</strong> Rueda del ratón · <strong>Pan:</strong> Clic derecho</div>
+      </div>
+    </div>
+
+    <aside id="sidebar">
+      <div class="card">
+        <h2>1. Definición de la Región 2D</h2>
+        <div class="formula">
+          f(x) = -x² + 4x  (Curva superior)<br>
+          g(x) = x          (Recta inferior)<br>
+          Intersección: [0, 3]  en x=0 y x=3<br>
+          Altura h(x) = 3x - x²
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2. Parámetros del Sólido</h2>
+        <div class="control-group">
+          <label><span>Ángulo de Revolución (θ):</span><span id="val-angle" class="val">360°</span></label>
+          <input type="range" id="slider-angle" min="10" max="360" step="5" value="360">
+        </div>
+
+        <div class="control-group">
+          <label><span>Número de Capas Cilíndricas (n):</span><span id="val-shells" class="val">16</span></label>
+          <input type="range" id="slider-shells" min="2" max="64" step="2" value="16">
+        </div>
+
+        <div class="control-group">
+          <label><span>Opacidad del Sólido:</span><span id="val-opacity" class="val">0.75</span></label>
+          <input type="range" id="slider-opacity" min="0.1" max="1" step="0.05" value="0.75">
+        </div>
+
+        <div class="btn-row">
+          <button id="btn-toggle-solid">Ocultar Sólido</button>
+          <button id="btn-toggle-shells" class="secondary">Ver Capas</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>3. Cálculo Analítico del Volumen</h2>
+        <div class="formula">
+          V = 2π ∫₀³ x · (3x - x²) dx<br>
+          V = 2π [ x³ - x⁴/4 ]₀³<br>
+          V = 2π (27 - 20.25) = 2π (6.75)<br>
+          <strong>V = 27π / 2 = 13.5π ≈ 42.4115 u³</strong>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Volumen Teórico Exacto:</span>
+          <span class="stat-val">42.4115 u³ (13.5π)</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Aprox. Riemann (<span id="stat-n">16</span> capas):</span>
+          <span class="stat-val" id="stat-approx">42.38 u³</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Error Relativo:</span>
+          <span class="stat-val" id="stat-error">&lt; 0.1%</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>4. Animación</h2>
+        <div class="btn-row">
+          <button id="btn-animate">Animar Giro</button>
+          <button id="btn-reset" class="secondary">Reiniciar Cámara</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const container = document.getElementById('viewport');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0f172a, 0.03);
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(7, 6, 9);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(0, 2, 0);
+
+    // Luces
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
+
+    const dirLight2 = new THREE.DirectionalLight(0xf59e0b, 0.8);
+    dirLight2.position.set(-5, -3, -5);
+    scene.add(dirLight2);
+
+    // Ejes y Grid
+    const gridHelper = new THREE.GridHelper(12, 24, 0x334155, 0x1e293b);
+    gridHelper.position.y = 0;
+    scene.add(gridHelper);
+
+    // Eje Y (Eje de giro) en Oro brillante
+    const axisMat = new THREE.LineBasicMaterial({ color: 0xf59e0b, linewidth: 2 });
+    const axisGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, -1, 0),
+      new THREE.Vector3(0, 6, 0)
+    ]);
+    const yAxisLine = new THREE.Line(axisGeo, axisMat);
+    scene.add(yAxisLine);
+
+    // Funciones
+    const f = x => -x*x + 4*x; // Superior
+    const g = x => x;          // Inferior
+    const h = x => f(x) - g(x);// Altura
+
+    let solidMesh = null;
+    let shellGroup = new THREE.Group();
+    let curve2DGroup = new THREE.Group();
+    scene.add(shellGroup);
+    scene.add(curve2DGroup);
+
+    function buildSolid(maxAngleRad, opacity) {
+      if (solidMesh) scene.remove(solidMesh);
+
+      const radialSegments = Math.max(16, Math.floor(maxAngleRad / (Math.PI / 24)));
+      const heightSegments = 40;
+
+      // Crear superficie de revolución parametrizada
+      const points = [];
+      for (let i = 0; i <= heightSegments; i++) {
+        const t = i / heightSegments;
+        const x = t * 3; // [0, 3]
+        points.push(new THREE.Vector2(x, f(x)));
+      }
+      for (let i = heightSegments; i >= 0; i--) {
+        const t = i / heightSegments;
+        const x = t * 3;
+        points.push(new THREE.Vector2(x, g(x)));
+      }
+
+      const geom = new THREE.LatheGeometry(points, radialSegments, 0, maxAngleRad);
+      const mat = new THREE.MeshPhysicalMaterial({
+        color: 0x2563eb,
+        transparent: true,
+        opacity: opacity,
+        roughness: 0.2,
+        metalness: 0.1,
+        transmission: 0.4,
+        ior: 1.5,
+        side: THREE.DoubleSide
+      });
+
+      solidMesh = new THREE.Mesh(geom, mat);
+      scene.add(solidMesh);
+    }
+
+    function buildShells(n, maxAngleRad) {
+      while(shellGroup.children.length > 0) {
+        shellGroup.remove(shellGroup.children[0]);
+      }
+
+      const dx = 3.0 / n;
+      let riemannVol = 0;
+
+      for (let i = 0; i < n; i++) {
+        const xMid = (i + 0.5) * dx;
+        const heightVal = h(xMid);
+        const yBottom = g(xMid);
+        const radius = xMid;
+
+        riemannVol += 2 * Math.PI * radius * heightVal * dx * (maxAngleRad / (2 * Math.PI));
+
+        if (heightVal <= 0.01) continue;
+
+        // Cilindro hueco (capa cilíndrica)
+        const shellGeom = new THREE.CylinderGeometry(radius, radius, heightVal, 32, 1, true, 0, maxAngleRad);
+        const shellMat = new THREE.MeshStandardMaterial({
+          color: (i % 2 === 0) ? 0x38bdf8 : 0xf59e0b,
+          transparent: true,
+          opacity: 0.65,
+          side: THREE.DoubleSide,
+          wireframe: false
+        });
+
+        const shell = new THREE.Mesh(shellGeom, shellMat);
+        shell.position.y = yBottom + heightVal / 2;
+        shellGroup.add(shell);
+      }
+
+      document.getElementById('stat-n').innerText = n;
+      document.getElementById('stat-approx').innerText = riemannVol.toFixed(4) + ' u³';
+      const exact = (27 * Math.PI / 2) * (maxAngleRad / (2 * Math.PI));
+      const err = Math.abs(exact - riemannVol) / exact * 100;
+      document.getElementById('stat-error').innerText = err.toFixed(3) + '%';
+    }
+
+    // Inicializar geometría
+    let curAngleDeg = 360;
+    let curShells = 16;
+    let curOpacity = 0.75;
+    let isSolidVisible = true;
+    let areShellsVisible = true;
+
+    buildSolid(curAngleDeg * Math.PI / 180, curOpacity);
+    buildShells(curShells, curAngleDeg * Math.PI / 180);
+
+    // Eventos UI
+    const sliderAngle = document.getElementById('slider-angle');
+    const sliderShells = document.getElementById('slider-shells');
+    const sliderOpacity = document.getElementById('slider-opacity');
+
+    sliderAngle.addEventListener('input', (e) => {
+      curAngleDeg = parseFloat(e.target.value);
+      document.getElementById('val-angle').innerText = curAngleDeg + '°';
+      const rad = curAngleDeg * Math.PI / 180;
+      buildSolid(rad, curOpacity);
+      buildShells(curShells, rad);
+    });
+
+    sliderShells.addEventListener('input', (e) => {
+      curShells = parseInt(e.target.value);
+      document.getElementById('val-shells').innerText = curShells;
+      buildShells(curShells, curAngleDeg * Math.PI / 180);
+    });
+
+    sliderOpacity.addEventListener('input', (e) => {
+      curOpacity = parseFloat(e.target.value);
+      document.getElementById('val-opacity').innerText = curOpacity;
+      if (solidMesh) solidMesh.material.opacity = curOpacity;
+    });
+
+    document.getElementById('btn-toggle-solid').addEventListener('click', (e) => {
+      isSolidVisible = !isSolidVisible;
+      if (solidMesh) solidMesh.visible = isSolidVisible;
+      e.target.innerText = isSolidVisible ? 'Ocultar Sólido' : 'Mostrar Sólido';
+    });
+
+    document.getElementById('btn-toggle-shells').addEventListener('click', (e) => {
+      areShellsVisible = !areShellsVisible;
+      shellGroup.visible = areShellsVisible;
+      e.target.innerText = areShellsVisible ? 'Ocultar Capas' : 'Ver Capas';
+    });
+
+    let animating = false;
+    document.getElementById('btn-animate').addEventListener('click', () => {
+      animating = true;
+      curAngleDeg = 10;
+      sliderAngle.value = curAngleDeg;
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      camera.position.set(7, 6, 9);
+      controls.target.set(0, 2, 0);
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (animating) {
+        curAngleDeg += 2.5;
+        if (curAngleDeg >= 360) {
+          curAngleDeg = 360;
+          animating = false;
+        }
+        sliderAngle.value = curAngleDeg;
+        document.getElementById('val-angle').innerText = Math.round(curAngleDeg) + '°';
+        const rad = curAngleDeg * Math.PI / 180;
+        buildSolid(rad, curOpacity);
+        buildShells(curShells, rad);
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
